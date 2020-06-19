@@ -20,7 +20,7 @@ let start = document.getElementById("start"),
   // left part, unputs
   salaryAmount = document.querySelector(".salary-amount"),
   incomeTitle = document.querySelector(".income-title"),
-  // incomeAmount = document.querySelector(".income-amount"),
+  incomeAmount = document.querySelector(".income-amount"),
   additionalIncomeItem = document.querySelector(".additional_income-item"),
   additionalIncomeAmount = document.querySelector(".additional_income-amount"),
   expensesTitle = document.querySelector(".expenses-title"),
@@ -127,19 +127,6 @@ const appData = {
         appData.income[itemIncome] = +cashIncome;
       }
     });
-
-    // if (confirm("do you have additional income?")) {
-    //   let additionalIncome;
-    //   while (!isText(additionalIncome)) {
-    //     additionalIncome = prompt("Additional income (must be string): ", "Uber driver");
-    //   }
-    //   let cashIncome;
-    //   while (!isNumber(cashIncome)) {
-    //     cashIncome = prompt("Cash income (must be number): ", 30000);
-    //   }
-    //   appData.income[additionalIncome] = cashIncome;
-    // }
-
     for (let key in appData.income) {
       appData.incomeMonth += +appData.income[key];
     }
@@ -162,30 +149,7 @@ const appData = {
       }
     });
   },
-  // asking: function () {
 
-  //   const addExpenses = prompt(
-  //     "possible expenses: ",
-  //     "cinema, circus, trip abroad"
-  //   );
-  //   appData.addExpenses = addExpenses.toLowerCase().split(", ");
-
-  //   for (let i = 0; i < 2; i++) {
-  //     let amount;
-  //     let obligatoryExpenses;
-  //     while (!isText(obligatoryExpenses)) {
-  //       obligatoryExpenses = prompt(
-  //         "Obligatory expenses " + (i + 1) + " (must be string): "
-  //       );
-  //     }
-  //     while (!isNumber(amount)) {
-  //       amount = prompt("Expenses amount " + (i + 1) + " (must be number): ");
-  //     }
-  //     appData.expenses[obligatoryExpenses] = +amount;
-  //   }
-
-  //   appData.deposit = confirm("do you have deposit? ");
-  // },
   getExpensesMonth: function () {
     for (let key in appData.expenses) {
       appData.expensesMonth += appData.expenses[key];
@@ -248,12 +212,6 @@ const appData = {
 };
 
 let statusIncome = appData.getStatusIncome();
-
-console.log("budget " + appData.budget);
-console.log("----------------------------------");
-console.log("obligatory expenses: ");
-console.log(appData.expenses);
-console.log("get target month, period: " + appData.getTargetMonth());
 
 let additionalExpensesString = "";
 appData.addExpenses.forEach((item, index) => {
