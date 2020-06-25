@@ -154,6 +154,7 @@ class AppData {
     periodAmount.value = "";
 
     incomeItems.forEach((item) => {
+      console.log(item);
       item.querySelector(".income-title").value = "";
       item.querySelector(".income-amount").value = "";
     });
@@ -174,7 +175,6 @@ class AppData {
   showResult() {
     const _this = this;
     budgetMonthValue.value = this.budgetMonth;
-    console.log("result " + budgetMonthValue.value);
     budgetDayValue.value = this.budgetDay;
     expensesMonthValue.value = this.expensesMonth;
     additionalExpensesValue.value = this.addExpenses.join(", ");
@@ -208,6 +208,28 @@ class AppData {
       incomePlus.style.display = "none";
     }
   }
+
+  addNewBlockTest() {
+    const insertBlock = (items) => {
+      console.log(items[0]);
+      const cloneItem = items[0].cloneNode(true);
+      const startStr = items[0].className.split("-")[0];
+      cloneItem.querySelector(`.${startStr}-title`).value = "";
+      cloneItem.querySelector(`.${startStr}-amount`).value = "";
+
+      const button = document.querySelector(`.${startStr}_add`);
+
+      items[0].parentNode.insertBefore(cloneItem, button);
+      items = document.querySelectorAll(`.${startStr}-items`);
+
+      if (items.length === 3) {
+        button.style.display = "none";
+      }
+    };
+
+    insertBlock(incomeItems);
+  }
+
   getExpInc() {
     const count = (item) => {
       const startStr = item.className.split("-")[0];
@@ -244,7 +266,8 @@ class AppData {
       }
     };
 
-    const addInc = Array.from(additionalIncomeItems).map((item) => item.value);
+    const addInc = [...additionalIncomeItems].map((item) => item.value);
+    console.log(addInc);
     addInc.forEach(count);
   }
   getExpensesMonth() {
@@ -308,19 +331,19 @@ class AppData {
   eventListeners() {
     // start
     start.addEventListener("click", this.start.bind(this));
-  
+
     // reset
     cancel.addEventListener("click", this.reset.bind(this));
-  
+
     incomePlus.addEventListener("click", this.addIncomeBlock);
     expensesPlus.addEventListener("click", this.addExpensesBlock);
     periodSelect.addEventListener("input", this.getPeriod.bind(this));
-  
+
     incomeTitle[1].addEventListener("input", validateTitle);
     incomeItem1.addEventListener("input", validateTitle);
     incomeItem2.addEventListener("input", validateTitle);
     expensesTitle[1].addEventListener("input", validateTitle);
-  
+
     salaryAmount.addEventListener("input", validateNumbers);
     incomeAmount.addEventListener("input", validateNumbers);
     expensesAmount.addEventListener("input", validateNumbers);
