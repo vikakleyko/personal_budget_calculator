@@ -45,14 +45,7 @@ const isNumber = function(n) {
 const isText = function(value) {
     // regular expression
     const regex = /^[a-zA-Z\s]*$/;
-    if (!value) {
-        return false;
-    }
-    if (value.match(regex)) {
-        return true;
-    } else {
-        return false;
-    }
+    return !!(value && value.match(regex));
 };
 
 // regex for title
@@ -123,8 +116,7 @@ class AppData {
             this.budget = +salaryAmount.value;
             this.getExpInc();
             this.getExpensesMonth();
-            this.getAddExpenses();
-            this.getAddIncome();
+            this.getAddExpInc();
             this.getInfoDeposit();
             this.getBudget();
 
@@ -148,15 +140,7 @@ class AppData {
     }
 
     reset() {
-        this.budget = 0;
-        this.expenses = {};
-        this.expensesMonth = 0;
-        this.income = {};
-        this.addExpenses = [];
-        this.addIncome = [];
-        this.budgetMonth = 0;
-        this.budgetDay = 0;
-        this.incomeMonth = 0;
+        Object.assign(this, new AppData());
         depositCheck.checked = false;
         this.depositHandler();
 
@@ -265,28 +249,21 @@ class AppData {
             this.incomeMonth += +this.income[key];
         }
     }
-    getAddExpenses() {
-        const count = item => {
+    getAddExpInc() {
+        const count = function(item) {
             item = item.trim();
             if (item !== "") {
-                this.addExpenses.push(item);
+                this.push(item);
             }
         };
 
         const addExp = additionalExpensesItem.value.split(",");
-        addExp.forEach(count);
-    }
-    getAddIncome() {
-        const count = item => {
-            item = item.trim();
-            if (item !== "") {
-                this.addIncome.push(item);
-            }
-        };
+        addExp.forEach(count, this.addExpenses);
 
         const addInc = [...additionalIncomeItems].map(item => item.value);
-        addInc.forEach(count);
+        addInc.forEach(count, this.addIncome);
     }
+
     getExpensesMonth() {
         for (const key in this.expenses) {
             this.expensesMonth += this.expenses[key];
